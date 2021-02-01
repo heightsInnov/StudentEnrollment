@@ -33,7 +33,6 @@ public class PBEncrytor {
         return PBDecrypt(str, passPhrase0);
     }
 
-    @SuppressWarnings("restriction")
     public String PBEncrypt(String str, String passPhrase) {
         Cipher ecipher;
         Cipher dcipher;
@@ -97,7 +96,6 @@ public class PBEncrytor {
             dcipher.init(Cipher.DECRYPT_MODE, key, paramSpec);
 
             if (str != null) {
-                @SuppressWarnings("restriction")
                 byte[] dec = Base64.getDecoder().decode(str);
 //                byte[] dec = new sun.misc.BASE64Decoder().decodeBuffer(str);
                 byte[] utf8 = dcipher.doFinal(dec);

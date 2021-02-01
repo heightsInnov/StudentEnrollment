@@ -26,7 +26,6 @@ public class SendBirthdays {
     @Scheduled(cron = CRON_TIMER)
     public void sendBirthdayMessage() {
         try {
-            @SuppressWarnings("unchecked")
             List<Student> birthdays = repo.findAll().stream().filter(x -> x.getDateofbirth().equals(LocalDate.now())).collect(Collectors.toList());
             List<String> recipients = new ArrayList<>();
             if (!birthdays.isEmpty()) {
