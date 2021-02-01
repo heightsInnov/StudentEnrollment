@@ -17,8 +17,8 @@ public interface StudentEnrollmentRepository extends JpaRepository<Student, Long
 
 	@Modifying
 	@Query("update Student u set u.firstname = ?1, u.lastname = ?2, u.othername = ?3, u.gender = ?4,  u.dateofbirth = ?5, u.department = ?6 where u.id = ?7")
-	public boolean updateStudent(String firstname, String lastname, String othername, String gender, LocalDate dob,
-			String department);
+	public int updateStudent(String firstname, String lastname, String othername, String gender, LocalDate dob,
+			String department, long id);
 
 	@Query("select m "
 			+ " from Student m where " 

@@ -41,22 +41,9 @@ public class Student {
 	@Column(name = "createdat")
 	private LocalDate createdat;
 	
-	public Student(String firstname, String lastname, String othername, String gender, LocalDate dateofbirth,
-			String department) {
-		super();
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.othername = othername;
-		this.gender = gender;
-		this.dateofbirth = dateofbirth;
-		this.department = department;
+	public Student() {
 		this.createdat = LocalDate.now();
 	}
-
-	public Student() {
-
-	}
-
 	
 	public LocalDate getCreatedat() {
 		return createdat;

@@ -3,6 +3,8 @@ package com.flexisaf.enrol.controller;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -20,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.flexisaf.enrol.model.Student;
 import com.flexisaf.enrol.model.StudentSearch;
 import com.flexisaf.enrol.model.dto.StudentDto;
 import com.flexisaf.enrol.service.StudentEnrollmentService;
@@ -30,32 +31,38 @@ import com.flexisaf.enrol.service.StudentEnrollmentService;
 @RequestMapping("/api")
 public class StudentEnrollmentController {
 
+	private static final Logger logger = LoggerFactory.getLogger(StudentEnrollmentController.class);
 	@Autowired
 	StudentEnrollmentService studentEnrollmentService;
 
 	@GetMapping("/get-student/{id}")
 	public @ResponseBody ResponseEntity<StudentDto> getStudent(@PathVariable(value = "id") long id) {
+		logger.info("[get-student{id}] -- "+id);
 		return studentEnrollmentService.getStudent(id);
 	}
 
 	@GetMapping("/get-student")
 	public @ResponseBody ResponseEntity<List<StudentDto>> getAllStudent() {
+		logger.info("[get-student]");
 		return studentEnrollmentService.getAllStudent();
 	}
 
 	@PostMapping("/register-student")
 	public @ResponseBody ResponseEntity<Long> register(@RequestBody StudentDto student) {
+		logger.info("[register-student] -- "+ student);
 		return studentEnrollmentService.registerStudent(student);
 	}
 
 	@PutMapping("/update-student/{id}")
-	public @ResponseBody ResponseEntity<Boolean> update(@PathVariable("id") long id, @RequestBody Student student) {
-		student.setId(id);
+	public @ResponseBody ResponseEntity<Integer> update(@PathVariable("id") String id, @RequestBody StudentDto student) {
+		logger.info("[update-student] -- "+ student + " -- id -- "+ id);
+		student.setStudentId(id);
 		return studentEnrollmentService.updateStudent(student);
 	}
 
 	@DeleteMapping("/delete-student/{id}")
 	public @ResponseBody ResponseEntity<String> delete(@PathVariable("id") long id) {
+		logger.info("[delete-student/{id}] -- " +id);
 		return studentEnrollmentService.deleteStudent(id);
 	}
 
@@ -80,6 +87,8 @@ public class StudentEnrollmentController {
 		studentSearch.setStartDate(from);
 		studentSearch.setEndDate(to);
 
+		logger.info("[search-student] -- " + studentSearch);
+		
 		return studentEnrollmentService.SearchStudent(studentSearch, pageable);
 	}
 }

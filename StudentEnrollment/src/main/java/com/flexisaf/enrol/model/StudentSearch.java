@@ -94,4 +94,13 @@ public class StudentSearch {
 	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
+
+	@Override
+	public String toString() {
+		return "StudentSearch [firstname=" + firstname + ", lastname=" + lastname + ", othername=" + othername
+				+ ", gender=" + gender + ", dateofbirth=" + dateofbirth + ", department=" + department + ", fullname="
+				+ fullname + ", startDate=" + startDate + ", endDate=" + endDate + "]";
+	}
+	
+	
 }

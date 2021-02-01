@@ -82,21 +82,35 @@ public class StudentEnrollmentServiceImpl implements StudentEnrollmentService {
 	@Override
 	public ResponseEntity<Long> registerStudent(StudentDto student) {
 		try {
-			long id = studentEnrollmentRepository.save(ObjectMapper.convertToModel(student)).getId();
-			student.setMatricnumber("FLEXISAF/" + String.valueOf(id));
-			studentEnrollmentRepository.flush();
+			Student st = studentEnrollmentRepository.save(ObjectMapper.convertToModel(student));
+			long id = st.getId();
+			st.setMatricnumber("FLEXISAF/" +generateId(id));
+			studentEnrollmentRepository.save(st);
 			return ResponseEntity.status(HttpStatus.OK).body(id);
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
 	}
 
+	private String generateId(long id) {
+		String ids = String.valueOf(id);
+		if (ids.length()<3) {
+			for (int i = ids.length(); i < 3; i++) {
+				ids = "0"+ids;
+			}
+		}
+		System.out.println("Generated Id is >> "+ids);
+		return ids;
+	}
+	
 	@Override
-	public ResponseEntity<Boolean> updateStudent(Student student) {
+	public ResponseEntity<Integer> updateStudent(StudentDto studentDto) {
+		Student student = ObjectMapper.convertToModel(studentDto);
 		return ResponseEntity.status(HttpStatus.OK).body(
 				studentEnrollmentRepository.updateStudent(student.getFirstname(), student.getLastname(), student.getOthername(),
-				student.getGender(), student.getDateofbirth(), student.getDepartment()));
+				student.getGender(), student.getDateofbirth(), student.getDepartment(), student.getId()));
 	}
 	
 	public ResponseEntity<List<StudentDto>> SearchStudent(StudentSearch student, Pageable pageable) {
@@ -104,7 +118,7 @@ public class StudentEnrollmentServiceImpl implements StudentEnrollmentService {
 		studentEnrollmentRepository
 		.searchStudent(student.getFirstname(), student.getLastname(), student.getOthername(), 
 	    		student.getGender(), student.getDepartment(), student.getFullname(), student.getStartDate(), 
-	    		student.getEndDate(), pageable).subList(0, 50).forEach(x -> {
+	    		student.getEndDate(), pageable).forEach(x -> {
 	    			students.add(ObjectMapper.convertToDto(x));
 	    		});
 		if (!students.isEmpty()) {

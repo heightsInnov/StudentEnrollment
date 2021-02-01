@@ -91,4 +91,13 @@ public class StudentDto {
 	public void setCreatedat(String createdat) {
 		this.createdat = createdat;
 	}
+
+	@Override
+	public String toString() {
+		return "StudentDto [studentId=" + studentId + ", firstname=" + firstname + ", lastname=" + lastname
+				+ ", othername=" + othername + ", gender=" + gender + ", dateofbirth=" + dateofbirth + ", department="
+				+ department + ", matricnumber=" + matricnumber + ", createdat=" + createdat + "]";
+	}
+	
+	
 }
