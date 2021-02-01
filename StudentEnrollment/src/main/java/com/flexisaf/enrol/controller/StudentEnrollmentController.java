@@ -32,6 +32,7 @@ import com.flexisaf.enrol.service.StudentEnrollmentService;
 public class StudentEnrollmentController {
 
 	private static final Logger logger = LoggerFactory.getLogger(StudentEnrollmentController.class);
+	
 	@Autowired
 	StudentEnrollmentService studentEnrollmentService;
 

@@ -22,6 +22,7 @@ public class ObjectMapper {
 		studentDto.setDepartment(student.getDepartment());
 		studentDto.setDateofbirth(student.getDateofbirth().toString());
 		studentDto.setMatricnumber(student.getMatricnumber());
+		studentDto.setStudentemail(student.getStudentemail());
 		if (student.getCreatedat() != null)
 			studentDto.setCreatedat(student.getCreatedat().toString());
 		return studentDto;
@@ -40,6 +41,7 @@ public class ObjectMapper {
 		studentDto.setDepartment(student.getDepartment());
 		studentDto.setDateofbirth(LocalDate.parse(student.getDateofbirth(), formatter));
 		studentDto.setMatricnumber(student.getMatricnumber());
+		studentDto.setStudentemail(student.getStudentemail());
 		return studentDto;
 	}
 }

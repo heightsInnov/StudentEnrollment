@@ -9,7 +9,8 @@ CREATE TABLE Student (
   dateofbirth DATE DEFAULT NULL,
   department VARCHAR(250) DEFAULT NULL,
   matricnumber VARCHAR(250) DEFAULT NULL,
-  createdat DATE DEFAULT NULL
+  createdat DATE DEFAULT NULL,
+  studentemail VARCHAR(100) DEFAULT NULL
 );
 
 INSERT INTO Student (id, firstname, lastname, gender, department, matricnumber) VALUES

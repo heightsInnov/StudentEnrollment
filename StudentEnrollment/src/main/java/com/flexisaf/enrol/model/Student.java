@@ -40,7 +40,18 @@ public class Student {
 
 	@Column(name = "createdat")
 	private LocalDate createdat;
-	
+
+	@Column(name = "studentemail")
+	private String studentemail;
+
+	public String getStudentemail() {
+		return studentemail;
+	}
+
+	public void setStudentemail(String studentemail) {
+		this.studentemail = studentemail;
+	}
+
 	public Student() {
 		this.createdat = LocalDate.now();
 	}

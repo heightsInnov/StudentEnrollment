@@ -1,10 +1,10 @@
 package com.flexisaf.enrol.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +19,11 @@ import com.flexisaf.enrol.utility.ObjectMapper;
 @Service("StudentEnrollmentService")
 public class StudentEnrollmentServiceImpl implements StudentEnrollmentService {
 
-	@Autowired
-	StudentEnrollmentRepository studentEnrollmentRepository;
+	private final StudentEnrollmentRepository studentEnrollmentRepository;
+
+	public StudentEnrollmentServiceImpl(StudentEnrollmentRepository studentEnrollmentRepository) {
+		this.studentEnrollmentRepository = studentEnrollmentRepository;
+	}
 
 	@Override
 	public ResponseEntity<StudentDto> getStudent(long id) {
@@ -82,10 +85,14 @@ public class StudentEnrollmentServiceImpl implements StudentEnrollmentService {
 	@Override
 	public ResponseEntity<Long> registerStudent(StudentDto student) {
 		try {
-			Student st = studentEnrollmentRepository.save(ObjectMapper.convertToModel(student));
-			long id = st.getId();
-			st.setMatricnumber("FLEXISAF/" +generateId(id));
-			studentEnrollmentRepository.save(st);
+			Student sts = ObjectMapper.convertToModel(student);
+			if ((LocalDate.now().getYear() - sts.getDateofbirth().getYear()) < 18  || (LocalDate.now().getYear() - sts.getDateofbirth().getYear()) > 25 ) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+			}
+			sts = studentEnrollmentRepository.save(sts);
+			long id = sts.getId();
+			sts.setMatricnumber("FLEXISAF/" +generateId(id));
+			studentEnrollmentRepository.save(sts);
 			return ResponseEntity.status(HttpStatus.OK).body(id);
 
 		} catch (Exception e) {
@@ -93,7 +100,7 @@ public class StudentEnrollmentServiceImpl implements StudentEnrollmentService {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
 	}
-
+	
 	private String generateId(long id) {
 		String ids = String.valueOf(id);
 		if (ids.length()<3) {

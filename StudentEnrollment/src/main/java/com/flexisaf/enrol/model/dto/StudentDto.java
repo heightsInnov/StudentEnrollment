@@ -18,7 +18,17 @@ public class StudentDto {
 
 	private String matricnumber;
 
+	private String studentemail;
+
 	private String createdat;
+
+	public String getStudentemail() {
+		return studentemail;
+	}
+
+	public void setStudentemail(String studentemail) {
+		this.studentemail = studentemail;
+	}
 
 	public String getStudentId() {
 		return studentId;
